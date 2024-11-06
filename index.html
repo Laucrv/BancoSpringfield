@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco de Springfield</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <img src="img/Logo.jpeg" alt="Logo banco de Springfield">
+        <div id="banco"></div>
+        <div id="sucursal"></div>
+        <div id="titular"></div>
+        <h2>Nro cuenta:</h2>
+        <div id="nro_cuenta"></div>
+        <div id="saldo_usd"></div>
+        <div id="saldo_eur"></div>
+        <h2>CBU:</h2>
+        <div id="nro_banco"></div>
+        <h2>Abierta:</h2>
+        <div id="abierto"></div>
+    </div>
+    <script>
+        let datosJson;
+
+    fetch('persona.json')
+    .then(res => res.json())
+    .then((salida) => {
+        datosJson = salida
+
+        let elementoTexto = document.getElementById("banco")
+        elementoTexto.textContent = datosJson.banco
+
+        let elementoTexto2 = document.getElementById("sucursal")
+        elementoTexto2.textContent = datosJson.sucursal
+
+        let elementoTexto3 = document.getElementById("titular")
+        elementoTexto3.textContent = datosJson.titular
+
+        let elementoTexto4 = document.getElementById("nro_cuenta")
+        elementoTexto4.textContent = datosJson.nro_cuenta
+
+        datosJson.saldo.forEach((s) => {
+            if(s.moneda === "USD"){
+                let elementoTexto5 = document.getElementById("saldo_usd")
+                elementoTexto5.textContent = `Saldo en USD: ${s.monto}`
+            }else if(s.moneda === "EUR"){
+                let elementoTexto6 = document.getElementById("saldo_eur")
+                elementoTexto6.textContent = `Saldo en EUR: ${s.monto}`
+            }
+        })
+
+        let elementoTexto7 = document.getElementById("nro_banco")
+        elementoTexto7.textContent = datosJson.nro_banco
+
+        let elementoTexto8 = document.getElementById("abierto")
+        elementoTexto8.textContent = datosJson.abierto
+    })
+
+    .catch(function(error) {alert(error)})
+    </script>
+</body>
+</html>
